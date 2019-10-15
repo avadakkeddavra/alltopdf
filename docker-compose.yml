@@ -1,0 +1,20 @@
+version: "3.4"
+services:
+  db:
+    image: bitnami/mariadb:10.1
+    restart: always
+    environment:
+      - ALLOW_EMPTY_PASSWORD=true
+      - MARIADB_USER=admin
+      - MARIADB_DATABASE=tasks
+      - MARIADB_PASSWORD=admin123
+    volumes:
+      - ./database:/var/lib/mysql
+    ports:
+      - "3300:3306"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 6070:8080
