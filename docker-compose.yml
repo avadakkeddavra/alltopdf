@@ -1,20 +1,31 @@
 version: "3.4"
 services:
   db:
-    image: bitnami/mariadb:10.1
+    image: mariadb
     restart: always
     environment:
-      - ALLOW_EMPTY_PASSWORD=true
-      - MARIADB_USER=admin
-      - MARIADB_DATABASE=tasks
-      - MARIADB_PASSWORD=admin123
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_DATABASE: alltopdf
     volumes:
-      - ./database:/var/lib/mysql
+      - ./db_data:/var/lib/mysql
     ports:
-      - "3300:3306"
+      - 3305:3306
 
   adminer:
     image: adminer
     restart: always
     ports:
       - 6070:8080
+
+  test:
+    depends_on:
+      - db
+    restart: always
+    build:
+      ./src
+    volumes:
+      - ./src:/var/www/html
+    ports:
+      - 3131:80

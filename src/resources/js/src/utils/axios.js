@@ -1,9 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-
 const apiClient = axios.create();
-apiClient.defaults.baseURL = BASE_URL;
+apiClient.defaults.baseURL = APP_URL;
 
 apiClient.interceptors.request.use(function (request) {
   const token = localStorage.getItem('token');

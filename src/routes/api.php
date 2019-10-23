@@ -13,15 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::post('/asd/login', 'ApiAuthController@login');
+Route::post('/login', 'ApiAuthController@login');
+Route::post('/register', 'ApiAuthController@register');
 Route::middleware('auth:api')->group(function () {
-    Route::prefix('user')->group(function () {
-        Route::get('/', function (Request $request) {
-            return $request->user();
-        });
+    Route::get('/me', function(Request $request) {
+       return  response()->json(['user' => $request->user()]);
     });
-    Route::prefix('tasks')->group(function() {
-       Route::get('/', 'TasksController@getAll');
-       Route::get('/my', 'TasksController@getMy');
+    Route::prefix('user')->group(function () {
     });
 });

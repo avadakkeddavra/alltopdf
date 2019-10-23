@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ApiLoginRequest;
+use App\Http\Requests\ApiRegisterRequest;
 use App\User;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Env;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class ApiAuthController extends Controller
 {
@@ -24,11 +26,26 @@ class ApiAuthController extends Controller
             'email' => $user->email,
             'id' => $user->id
         ];
+
         $token = JWT::encode($dataToEncode, Env::get('JWT_SECRET'));
-        return response()->json(['success' => true, 'token' => $token]);
+        return $token;
     }
 
-    public function register() {
+    public function register(ApiRegisterRequest $request) {
+        $body = $request->only(['name', 'email', 'password']);
+        $user = new User();
+        $user->name = $body['name'];
+        $user->email = $body['email'];
+        $user->password = Hash::make($body['password']);
+        $user->save();
 
+        $dataToEncode = [
+            'email' => $user->email,
+            'id' => $user->id
+        ];
+        Storage::disk('local')->makeDirectory('/users/' . $user->id);
+        $token = JWT::encode($dataToEncode, Env::get('JWT_SECRET'));
+
+        return $token;
     }
 }

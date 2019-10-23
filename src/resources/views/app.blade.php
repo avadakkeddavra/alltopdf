@@ -19,9 +19,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script>
+       const APP_URL = '{{env('APP_URL')}}/api';
+    </script>
 </head>
 <body>
-    <h1>test</h1>
     <div id="root"></div>
 </body>
 </html>
