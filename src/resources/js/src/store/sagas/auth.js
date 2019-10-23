@@ -1,16 +1,18 @@
 import service from '../../services/auth'
 import { all, takeEvery, put } from 'redux-saga/effects'
 import notify from "../../utils/notify";
+import decode from 'jwt-decode';
 
-function* login(action) {
+function* auth(action) {
     try {
-        const result = yield service.login(action.payload.body);
-        console.log(result);
+        const method = action.type === 'LOGIN' ? service.login : service.register;
+        const result = yield method(action.payload.body);
+        const user = decode(result);
         localStorage.setItem('token', result);
 
         yield put({
             type: 'SET_CURRENT_USER',
-            payload:  {token: result, user: {}}
+            payload:  {token: result, user}
         });
 
         yield action.payload.redirect();
@@ -38,7 +40,8 @@ function* getCurrent({payload}) {
 }
 
 function* fetchDataWatcher() {
-    yield takeEvery('LOGIN', login);
+    yield takeEvery('LOGIN', auth);
+    yield takeEvery('REGISTER', auth);
     yield takeEvery('GET_CURRENT_USER', getCurrent);
 }
 

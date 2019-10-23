@@ -24,6 +24,7 @@ class ApiAuthController extends Controller
 
         $dataToEncode = [
             'email' => $user->email,
+            'name' => $user->name,
             'id' => $user->id
         ];
 
@@ -41,6 +42,7 @@ class ApiAuthController extends Controller
 
         $dataToEncode = [
             'email' => $user->email,
+            'name' => $user->name,
             'id' => $user->id
         ];
         Storage::disk('local')->makeDirectory('/users/' . $user->id);

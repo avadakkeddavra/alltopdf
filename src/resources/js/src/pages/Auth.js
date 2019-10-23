@@ -1,12 +1,8 @@
 import * as React from 'react';
-import Paper from "@material-ui/core/Paper";
-import useInput from "../hooks/useInput";
-import Input from "../Components/Common/Form/Input";
-import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/styles";
-import {useCallback} from "react";
-import {useDispatch} from "redux-react-hook";
-import notify from "../utils/notify";
+import {Route, Switch} from "react-router-dom";
+import Login from "../Components/Auth/Login";
+import Register from "../Components/Auth/Register";
 
 const useStyles = makeStyles({
     root: {
@@ -19,47 +15,14 @@ const useStyles = makeStyles({
     }
 })
 
-const Auth = ({history}) => {
-    const dispatch = useDispatch();
-    const classes = useStyles();
-    const email = useInput({
-        label: 'Email',
-        type: 'email',
-        rule: 'email'
-    });
-    const password = useInput({
-        type: 'password',
-        label: 'Password'
-    });
-
-    const login = useCallback(() => {
-        dispatch({
-            type: 'LOGIN',
-            payload: {
-                body:{
-                    email: email.value,
-                    password: password.value
-                },
-                redirect: () => {
-                    console.log('Pizda')
-                    history.push('/')
-                }
-            }
-        })
-    }, [password, email]);
-
+const Auth = () => {
     return (
-        <Paper className={classes.root}>
-            <Input {...email}/>
-            <Input {...password}/>
-            <Button
-                variant="contained"
-                color="primary"
-                disabled={email.value.length === 0 || password.value.length === 0}
-                className={classes.btn}
-                onClick={login}
-            >Login</Button>
-        </Paper>
+        <>
+            <Switch>
+                <Route path="/auth/login" component={Login}/>
+                <Route path="/auth/register" component={Register}/>
+            </Switch>
+        </>
     )
 };
 

@@ -20,7 +20,7 @@ const useDropdown = () => {
     id,
     anchorEl,
     handleOpen,
-    handleClose,
+    onClose: handleClose,
     open
   }
 }

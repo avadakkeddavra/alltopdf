@@ -48,7 +48,7 @@ const Main = (props) => {
                     <div className={classes.root}>
                         <main className={classes.main}>
                             <div className={classes.content}>
-                                <TopBar/>
+                                <TopBar user={auth.user}/>
                                 <Router history={history} />
                             </div>
                         </main>
