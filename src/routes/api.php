@@ -19,6 +19,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/me', function(Request $request) {
        return  response()->json(['user' => $request->user()]);
     });
-    Route::prefix('user')->group(function () {
+    Route::prefix('files')->group(function () {
+        Route::post('/', 'FilesController@uploadFiles');
+        Route::get('/', 'FilesController@getUserFiles');
+        Route::patch('/{id}', 'FilesController@convertFileToPdf');
     });
 });

@@ -7,5 +7,5 @@ const PrivateRoute = (props) => {
   } else {
     return <Redirect to="/auth/login" />
   }
-}
+};
 export default PrivateRoute
